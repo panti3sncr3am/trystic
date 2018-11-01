@@ -1,0 +1,24 @@
+{
+	"cards": [{
+		"id": "Card_01",
+		"type": "Test",
+		"name": "Card 1",
+		"text": "This is Test Card 1, it has quite a lot of text.\nThis is the next line of text.",
+		"tint": [255, 0, 0]
+	},
+	{
+		"id": "Card_02",
+		"type": "Test",
+		"name": "Card 2",
+		"text": "This is Test Card 2",
+		"tint": [0, 255, 0]
+	},
+	{
+		"id": "Card_03",
+		"type": "Test",
+		"name": "Card 3",
+		"text": "This is Test Card 3",
+		"tint": [0, 0, 255]
+	}
+	]
+}

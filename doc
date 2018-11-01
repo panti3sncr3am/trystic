@@ -1,0 +1,123 @@
+Concepts:
+
+Player Details:
+==============================================================
+
+Numerical Stats:
+--------------------------------------------------------------
+
+Arousal: How horny you are
+	- Increases / decreases due to card effects
+	- Increases / decreases passively(?) (doubt it)
+	- Resets to 0 on orgasm
+	- Used as a resource for some cards (?)
+Stamina: orgasm threshold
+	- When Arousal = Stamina, an orgasm occurs
+	- May be modified by other cards
+Allure: How sexually appealing you are  
+	- Function of clothing + body
+	- Used as a resource for some cards (?)
+	- May be good or bad depending on the situation
+Degradation / Depravity / Perversion: "allure gone too far"
+	- Sometimes given by clothing / body cards
+	- Given by saturated garments
+Dominance: Control over opponent
+	- Base value determined by difference in arousal
+	- Many cards will modify this in some way
+	- Used as a resource for some cards
+Corruption: Composite stat that takes all of the above into account
+	- This is the stat that loses you the game. 
+
+Card-Based Stats:
+---------------------------------------------------------------
+
+Body: Defines physical transformations
+	- All body cards have a base sluttiness value
+		- Size is subsumed by this stat
+	- Some body cards may have additional effects
+	- Defaults:
+		- Breasts:
+		- Ass:
+		- Physique:
+		- Genitals:
+		- Hair: 
+	- Non-Defaults also exist (e.g. horns, tail, whatever)
+
+Clothing: The other half of "physical" transformation
+	- All clothing has a base sluttiness
+	- Some (most) have additional effects
+	- Usually created by random effect 
+		- example: transform X into a random relevent item of +2 sluttiness
+	- Also have category tags:
+		- Juvenile: (cheerleader, abdl, school girl)
+		- Sexy: (lace, lingerie)
+		- Kinky: (Leather, PVC)
+		- Bondage: (obvious)
+		- Cute: (default)
+	- Defaults:
+		- Top:
+		- Bottom: 
+		- Bra:
+		- Panties:
+	- Non-Defaults also exist (e.g. jewelry, shoes, chastity, bondage, toys) 
+
+Types of Card:
+===============================================================
+
+Body: Defines player's physical state. Not included in decks.
+Clothing: Defines player's state of dress.
+	- Usually not included in decks.
+	- Usually summoned by spells / charms
+	- Has an appeal score
+Spell: Single use, discarded after play, may target anything
+Charm: Continuous effect.
+	- Usually something like when X then Y
+Entity: Sentient being. 
+	- Stays in play until some condition is met
+	- May deal some effect e.g. at end of turn
+	- Summoned by other cards
+	- Example: summoned tentacle, succubus, slime monster, etc. 
+Impulse: A compulsive action
+	- placed in the player's deck by other effects
+	- will be played automatically at the end of a player's turn
+	- can be counterplayed with discard
+
+Keywords and Modifiers and Counters:
+---------------------------------------------------------------
+
+Counters:
+Milk: Placed on current breast card.
+	- Moved to clothing card when lactation occurs
+		- Increases degradation
+Cum: Placed on most clothing / body cards
+	- Increases degradation
+Urine: Placed on torso
+	- Moved to clothing when wetting occurs
+	- Increases degradation
+Mess: Placed on torso
+	- Moved to clothing when messing occurs
+	- Increases degradation
+
+Keyword Modifiers:
+Degrading: This clothing / body card's appeal score instead gives degradation
+Sensitive X: +X arousal when this card is targeted by an effect
+	- Effects Breast / Ass cards
+
+Strategy Ideas:
+===============================================================
+1.) Summon Djinn
+	- Creates "Slip of the Tongue" Impulses. Dismissed when 3 are played. 
+2.) Summon Tentacle
+	- Does nothing by itself. Combos with other cards e.g. "Tentacle bind"
+
+
+Strategy Ideas:
+===============================================================
+1.) Summon Tentacles, cards proc off of number of summoned tentacles
+	- Creats slip of the tongue impulses
+2.) TF lactation - focused on filling opponent's boobs
+	- Lactation counters
+	- auto-suckling
+	- auto-milking
+3.) Lactation domination - make self lactate; force opponent to suck
+	- Forced boob fetish
