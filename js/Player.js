@@ -34,7 +34,7 @@ class Player
 		    };
 		    this.zones.push(new CardZone(config_0));
 			this.zones.push(new CardZone(config_1));
-		    this.deck = new Deck(scene, 0.9*WIDTH, 7*HEIGHT/8, decklist);
+		    this.deck = new Deck(scene, 0.9*WIDTH, 7*HEIGHT/8, decklist,this);
 			this.hand = new CardZone(handConfig);
 		} else if (playerNum == 1) //top
 		{
@@ -64,7 +64,7 @@ class Player
 		    }
 		    this.zones.push(new CardZone(config_0));
 			this.zones.push(new CardZone(config_1));
-		    this.deck = new Deck(scene, 0.1*WIDTH, HEIGHT/8, decklist);
+		    this.deck = new Deck(scene, 0.1*WIDTH, HEIGHT/8, decklist,this);
 		    this.hand = new CardZone(handConfig);
 		}
 	}

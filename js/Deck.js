@@ -1,6 +1,6 @@
 class Deck extends Phaser.GameObjects.Container
 {
-	constructor(scene, x, y, decklist)
+	constructor(scene, x, y, decklist, player)
 	{
 		let H = scene.cardHeight;
 		let W = scene.cardWidth;
@@ -9,6 +9,8 @@ class Deck extends Phaser.GameObjects.Container
 		this.setSize(W,H);
 		scene.add.existing(this);
 		this.setInteractive();
+		this.player = player;
+		this.cards = [];
 
 		// Display Card Back
 		//this.back = scene.add.sprite(0,0,'cardBack');
@@ -19,14 +21,34 @@ class Deck extends Phaser.GameObjects.Container
 		{
 			let card = new Card(scene, 0, 0, scene.cardDefs[decklist[ii]]);
 			card.faceDown();
-			this.add(card);
+			this.addCard(card);
 		}
+
+		this.on('pointerdown',this.draw);
 	}
 
 	draw()
 	{
+		let card = this.cards.splice(0,1)[0];
+		this.remove(card);
 
+		card.faceUp();
+		card.setInteractive();
+		this.scene.input.setDraggable(card);
+		this.player.hand.addCard(card);
+		console.log(this.cards.length + " left in deck");
 	}
 
+	addCard(card, index = 0)
+	{
+		if (index) 
+		{
+			this.cards.splice(index,0,card);
+		} else {
+			this.cards.push(card);
+		}
+		this.add(card);
+		card.zone = this;
+	}
 
 }

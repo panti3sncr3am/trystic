@@ -11,8 +11,8 @@ class Card extends Phaser.GameObjects.Container
 		super(scene,x,y);
 		this.setSize(W,H);
 		scene.add.existing(this);
-		this.setInteractive();
-		scene.input.setDraggable(this);
+		//this.setInteractive();
+		//scene.input.setDraggable(this);
 		
 		// Card Front Base
 		this.base = scene.add.sprite(0,0,'card');
@@ -74,6 +74,7 @@ class Card extends Phaser.GameObjects.Container
 		//events
 		this.on('pointerdown', this.onClick);
 		this.on('drag',this.onDrag);
+		this.on('dragstart',this.onDragStart);
 		this.on('dragend',this.onDragEnd);
 		this.on('pointerover',this.onFocus);
 		this.on('pointerout',this.onBlur);
@@ -96,27 +97,35 @@ class Card extends Phaser.GameObjects.Container
 
 	onClick (pointer)
 	{
-		console.log(this);
-		this.back.visible = !this.back.visible;
 	}
 
 	onDrag (pointer)
 	{
 		this.scaleX = 1;
 		this.scaleY = 1;
+
 		let deltaX = 0;
 		let deltaY = 0;
+		
+		this.depth = 1000;
 		if (this.parentContainer)
 		{
 			deltaX = this.parentContainer.x;
 			deltaY = this.parentContainer.y;
 		}
+
 		this.x = pointer.x - deltaX;
 		this.y = pointer.y - deltaY;
 	}
 
+	onDragStart(pointer, dragX, dragY)
+	{
+		this.zone.depth = 1000;
+	}
+
 	onDragEnd(pointer, dragX, dragY, dropped)
 	{
+
 		if (!dropped)
 		{
 			this.x = this.input.dragStartX;
@@ -126,6 +135,12 @@ class Card extends Phaser.GameObjects.Container
 	
 	onDrop(pointer, target)
 	{	
+		this.zone.depth = 0;
+		if (target.texture)
+		{
+			target.texture.clearTint();
+		}
+		
 		if (this.zone == target)
 		{
 			this.onDragEnd(pointer);
@@ -134,39 +149,36 @@ class Card extends Phaser.GameObjects.Container
 				target.texture.clearTint();
 			}
 			return;
-		}
-		if (this.zoneIndex >= 0)
+		} else if (this.zone)
 		{
 			this.zone.removeCard(this);
+			target.addCard(this);
 		}
-		target.addCard(this);
-		if (target.texture)
-		{
-			target.texture.clearTint();
-		}
-		console.log(target.cards);
 	}
 	
 	onFocus(pointer)
 	{
 		if (this.back.visible){return;}
 		this.scene.children.bringToTop(this);
-		
+		this.zone.depth = 1000;
 		let tween = this.scene.tweens.add(
 		{
 			targets: this,
 			scaleX: 2,
 			scaleY: 2,
+			y: (HEIGHT/2 - this.zone.y)/3,
 			duration: this.zoomSpeed, 
 			onComplete: this.resizeText
 		});
 	}
 	onBlur(pointer)
 	{
+		this.zone.depth = 0;
 		this.scene.tweens.add({
 			targets: this,
 			scaleX: 1,
 			scaleY: 1, 
+			y: 0,
 			duration: this.zoomSpeed,
 			onComplete: this.resizeText
 		});

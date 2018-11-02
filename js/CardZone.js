@@ -13,22 +13,25 @@ class CardZone extends Phaser.GameObjects.Container
 		} else {
 
 		}
-
+		
 		this.setSize(config.w, config.h);
 		this.w = config.w;
 		this.h = config.h;
 		this.scene.add.existing(this);
 		this.setInteractive();
 		this.input.dropZone = true;
-		this.cards = [];
 		this.outline = config.scene.add.graphics();
 		this.outline.lineStyle(2,0x00ff00,1);
 		this.outline.strokeRect(this.x - this.w/2, this.y - this.h/2,
 								this.w, this.h);
+		this.cards = [];
+		this.depth = 0;
+		
 	}
 
 	addCard(card, index = 0)
 	{
+		console.log("addCard");
 		if (index) 
 		{
 			this.cards.splice(index,0,card);
@@ -42,9 +45,11 @@ class CardZone extends Phaser.GameObjects.Container
 
 	removeCard(card)
 	{
-		if (this.parent == this)
+		console.log("removeCard");
+		if (card.zone == this)
 		{
 			this.cards.splice(card.zoneIndex,1);
+			this.remove(card);
 			this.updateCards();
 		}
 	}

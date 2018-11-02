@@ -8,43 +8,47 @@ Numerical Stats:
 
 Arousal: How horny you are
 	- Increases / decreases due to card effects
-	- Increases / decreases passively(?) (doubt it)
+	- Increases passively
 	- Resets to 0 on orgasm
-	- Used as a resource for some cards (?)
+	- Opponent's arousal is used as a resource for spells
 Stamina: orgasm threshold
 	- When Arousal = Stamina, an orgasm occurs
 	- May be modified by other cards
 Allure: How sexually appealing you are  
-	- Function of clothing + body
-	- Used as a resource for some cards (?)
-	- May be good or bad depending on the situation
-Degradation / Depravity / Perversion: "allure gone too far"
-	- Sometimes given by clothing / body cards
-	- Given by saturated garments
+	- Base value of body cards
+		- Mitigated by clothing modesty
+	- Used as a threshold to play cards
+	- "Defensive" Resource
+Modesty: How much your clothing covers you
+	- Base value of clothing cards
+	- Can be negative (increasing allure past base value)
 Dominance: Control over opponent
-	- Base value determined by difference in arousal
 	- Many cards will modify this in some way
 	- Used as a resource for some cards
-Corruption: Composite stat that takes all of the above into account
+	- "Aggressive" resiyrce
+Corruption / Perversion / Depravity: Meter that fills throughout the game
 	- This is the stat that loses you the game. 
 
 Card-Based Stats:
 ---------------------------------------------------------------
 
 Body: Defines physical transformations
-	- All body cards have a base sluttiness value
+	- All body cards have a base allure value
 		- Size is subsumed by this stat
+		- "Growth" = transform into version with higher allure
 	- Some body cards may have additional effects
 	- Defaults:
 		- Breasts:
 		- Ass:
 		- Physique:
 		- Genitals:
-		- Hair: 
-	- Non-Defaults also exist (e.g. horns, tail, whatever)
+	- Non-Defaults also exist (e.g. horns, tail, hair, whatever)
 
 Clothing: The other half of "physical" transformation
-	- All clothing has a base sluttiness
+	- All clothing has a base modesty value
+		- Modesty decreases the allure of the associated body card
+		- This value can be negative
+	- Some clothing may be "concealed" in which case it's modesty value does nothing
 	- Some (most) have additional effects
 	- Usually created by random effect 
 		- example: transform X into a random relevent item of +2 sluttiness
