@@ -85,6 +85,8 @@ Impulse: A compulsive action
 	- placed in the player's deck by other effects
 	- will be played automatically at the end of a player's turn
 	- can be counterplayed with discard
+Persona: Powerful constant created when other criteria are met
+	- can radically change the rules for the player it affects
 
 Keywords and Modifiers and Counters:
 ---------------------------------------------------------------

@@ -24,6 +24,7 @@ class CardZone extends Phaser.GameObjects.Container
 		this.outline.lineStyle(2,0x00ff00,1);
 		this.outline.strokeRect(this.x - this.w/2, this.y - this.h/2,
 								this.w, this.h);
+		this.outline.visible = false;
 		this.cards = [];
 		this.depth = 0;
 		
@@ -63,6 +64,7 @@ class CardZone extends Phaser.GameObjects.Container
 			this.cards[ii].zoneIndex = ii;
 			this.cards[ii].x = (- this.w/2) + (ii+1)*delta;
 			this.cards[ii].y = 0;
+			this.bringToTop(this.cards[ii]);
 		}
 	}
 }

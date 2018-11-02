@@ -10,6 +10,7 @@ class GameBoard extends Phaser.Scene {
 	    this.load.image('cardZone','img/card_zone.png');
 	    this.load.image('tempCardArt','img/card_img.png');
 	    this.load.image('cardBack','img/card_back.png');
+	    this.load.image('portrait','img/portrait.png');
 	    this.load.json('cardDefs','js/CardDefs.json');
 	    
 	}

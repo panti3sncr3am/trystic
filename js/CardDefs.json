@@ -1,24 +1,39 @@
 {
 	"cards": [{
-		"id": "Card_01",
-		"type": "Test",
+		"id": "card_01",
 		"name": "Card 1",
+		"type": "Test",
 		"text": "This is Test Card 1, it has quite a lot of text.\nThis is the next line of text.",
 		"tint": [255, 0, 0]
 	},
 	{
-		"id": "Card_02",
-		"type": "Test",
+		"id": "card_02",
 		"name": "Card 2",
+		"type": "Test",
 		"text": "This is Test Card 2",
 		"tint": [0, 255, 0]
 	},
 	{
-		"id": "Card_03",
-		"type": "Test",
+		"id": "card_03",
 		"name": "Card 3",
+		"type": "Test",
 		"text": "This is Test Card 3",
 		"tint": [0, 0, 255]
+	},
+	{
+		"id": "warm_and_tingly",
+		"name": "Warm and Tingly",
+		"type": "Spell",
+		"text": "Opponent gains 2 Arousal.",
+		"tint": [255, 200, 255],
+		"targets": ["opponent"],
+		"effects": [
+			{
+				"effect": "addArousal",
+				"value": 2
+			}
+		]
 	}
+
 	]
 }

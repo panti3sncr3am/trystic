@@ -159,6 +159,7 @@ class Card extends Phaser.GameObjects.Container
 	onFocus(pointer)
 	{
 		if (this.back.visible){return;}
+		this.zone.bringToTop(this);
 		this.scene.children.bringToTop(this);
 		this.zone.depth = 1000;
 		let tween = this.scene.tweens.add(
@@ -182,6 +183,7 @@ class Card extends Phaser.GameObjects.Container
 			duration: this.zoomSpeed,
 			onComplete: this.resizeText
 		});
+		this.zone.updateCards();
 		
 	}
 	onDragover(pointer, target)
