@@ -1,124 +1,162 @@
-class Player
+class Player extends Phaser.GameObjects.GameObject
 {
 	constructor(scene, decklist, playerNum)
 	{
+		super(scene,"Player");
 		this.playerNum = playerNum;
-		this.zones = [];
-		let zone0Height = 0.18*HEIGHT;
-		let zone1Height = 0.39*HEIGHT;
-		this.arousal = 0;
+		// Create Zones
+		this.hand = new CardZone({
+	    	scene: scene,
+	    	id: "Hand",
+	    	splayCards: true,
+	    	x: HAND.x*playerNum + (WIDTH - HAND.x)*(1 - playerNum),
+	    	y: HAND.y*playerNum + (HEIGHT - HAND.y)*(1 - playerNum),
+	    	w: HAND.w,
+	    	h: ZONE_HEIGHT,
+
+	    });
+		this.zone0 = new CardZone({
+	    	scene: scene,
+	    	id: "Zone0",
+	    	splayCards: true,
+	    	x: ZONE_0.x*playerNum + (WIDTH - ZONE_0.x)*(1 - playerNum),
+	    	y: ZONE_0.y*playerNum + (HEIGHT - ZONE_0.y)*(1 - playerNum),
+	    	w: ZONE_0.w,
+	    	h: ZONE_HEIGHT,
+	    	texture: 'cardZone'
+	    });
+	    this.zone1 = new CardZone({
+	    	scene: scene,
+	    	id: "Zone1",
+	    	splayCards: true,
+	    	x: ZONE_1.x*playerNum + (WIDTH - ZONE_1.x)*(1 - playerNum),
+	    	y: ZONE_1.y*playerNum + (HEIGHT - ZONE_1.y)*(1 - playerNum),
+	    	w: ZONE_1.w,
+	    	h: ZONE_HEIGHT,
+	    	texture: 'cardZone'
+	    });
+	    this.deck = new CardZone({
+	    	scene: scene,
+	    	id: "Deck",
+	    	splayCards: false,
+	    	x: DECK.x*playerNum + (WIDTH - DECK.x)*(1 - playerNum),
+	    	y: DECK.y*playerNum + (HEIGHT - DECK.y)*(1 - playerNum),
+	    	w: DECK.w,
+	    	h: ZONE_HEIGHT,
+	    });
+	    this.deck.setInteractive();
+	    this.discard = new CardZone({
+	    	scene: scene,
+	    	id: "Discard",
+	    	splayCards: false,
+	    	x: DISCARD.x*playerNum + (WIDTH - DISCARD.x)*(1 - playerNum),
+	    	y: DISCARD.y*playerNum + (HEIGHT - DISCARD.y)*(1 - playerNum),
+	    	w: DISCARD.w,
+	    	h: ZONE_HEIGHT,
+	    });
+
+		this.portrait = scene.add.sprite(PORTRAIT.x*playerNum + (WIDTH - PORTRAIT.x)*(1 - playerNum),
+										PORTRAIT.y*playerNum + (HEIGHT - PORTRAIT.y)*(1 - playerNum),
+										'portrait');
+		this.portrait.setDisplaySize(PORTRAIT.w,PORTRAIT.h);
+		this.portrait.id = "Portrait";
+		this.portrait.setInteractive();
+		this.portrait.playerNum = playerNum;
+	    
+	    // Create stat display
+	    this.arousal = 0;
 		this.dominance = 0;
 		this.allure = 0;
 		this.perversion = 0;
-		if (playerNum == 0) //bottom
+		this.arousalDisplay = new StatDisplay(scene,
 		{
-			let handConfig = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: HEIGHT,
-		    	w: 0.4*WIDTH,
-		    	h: HEIGHT/6,
-		    	//texture: 'cardZone'
-		    };
-			let config_0 = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: HEIGHT - zone0Height,
-		    	w: 0.7*WIDTH,
-		    	h: HEIGHT/6,
-		    	texture: 'cardZone'
-		    };
-		    let config_1 = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: HEIGHT - zone1Height,
-		    	w: 0.7*WIDTH,
-		    	h: HEIGHT/6,
-		    	texture: 'cardZone'
-		    };
-		    this.zones.push(new CardZone(config_0));
-			this.zones.push(new CardZone(config_1));
-		    this.deck = new Deck(scene, 0.93*WIDTH, HEIGHT - zone0Height, decklist,this);
-			this.hand = new CardZone(handConfig);
-			this.arousalDisplay = new StatDisplay(scene,
-			{
-				x: 25,
-				y: HEIGHT/2+50,
-			}, "Arousal");
-			this.dominanceDisplay = new StatDisplay(scene,
-			{
-				x: 25,
-				y: HEIGHT/2+80,
-			}, "Dominance");
-			this.allureDisplay = new StatDisplay(scene,
-			{
-				x: 25,
-				y: HEIGHT/2+110,
-			}, "Allure");
-			this.perversionDisplay = new StatDisplay(scene,
-			{
-				x: 25,
-				y: HEIGHT/2+140,
-			}, "Perversion");
-			this.portrait = scene.add.sprite(WIDTH*0.05, HEIGHT*0.9,'portrait');
-			this.portrait.setDisplaySize(WIDTH*0.2,WIDTH*0.2);
+			x: DISPLAY.x*(1-playerNum) + (WIDTH - DISPLAY.x)*playerNum,
+			y: DISPLAY.arousal*playerNum + (HEIGHT - DISPLAY.arousal)*(1-playerNum)
+		}, "Arousal");
+		this.arousalDisplay.setOrigin(playerNum,0.5);
+		this.dominanceDisplay = new StatDisplay(scene,
+		{
+			x: DISPLAY.x*(1-playerNum) + (WIDTH - DISPLAY.x)*playerNum,
+			y: DISPLAY.dominance*playerNum + (HEIGHT - DISPLAY.dominance)*(1-playerNum)
+		}, "Dominance");
+		this.dominanceDisplay.setOrigin(playerNum,0.5);
+		this.allureDisplay = new StatDisplay(scene,
+		{
+			x: DISPLAY.x*(1-playerNum) + (WIDTH - DISPLAY.x)*playerNum,
+			y: DISPLAY.allure*playerNum + (HEIGHT - DISPLAY.allure)*(1-playerNum)
+		}, "Allure");
+		this.allureDisplay.setOrigin(playerNum,0.5);
+		this.perversionDisplay = new StatDisplay(scene,
+		{
+			x: DISPLAY.x*(1-playerNum) + (WIDTH - DISPLAY.x)*playerNum,
+			y: DISPLAY.perversion*playerNum + (HEIGHT - DISPLAY.perversion)*(1-playerNum)
+		}, "Perversion");
+		this.perversionDisplay.setOrigin(playerNum,0.5);
 
-		} else if (playerNum == 1) //top
+		// add cards to deck
+		for (var ii = 0; ii < decklist.length; ii++)
 		{
-			let handConfig = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: 0,
-		    	w: 0.4*WIDTH,
-		    	h: HEIGHT/6,
-		    	//texture: 'cardZone'
-		    };
-			let config_0 = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: zone0Height,
-		    	w: 0.7*WIDTH,
-		    	h: HEIGHT/6,
-		    	texture: 'cardZone'
-		    }
-		    let config_1 = {
-		    	scene: scene,
-		    	x: WIDTH/2,
-		    	y: zone1Height,
-		    	w: 0.7*WIDTH,
-		    	h: HEIGHT/6,
-		    	texture: 'cardZone'
-		    }
-		    this.zones.push(new CardZone(config_0));
-			this.zones.push(new CardZone(config_1));
-		    this.deck = new Deck(scene, 0.07*WIDTH, zone0Height, decklist,this);
-		    this.hand = new CardZone(handConfig);
-		    this.arousalDisplay = new StatDisplay(scene,
+			let card = new Card(scene, 0, 0, scene.cardDefs[decklist[ii]], playerNum);
+			card.faceDown();
+			this.deck.addCard(card);
+
+		}
+
+
+		this.shuffle();
+
+
+		// draw staring hand
+		for (var ii = 0; ii < 7; ii++)
+		{
+			this.draw();
+		}
+		console.log(this.deck);
+		//this.draw(7);
+
+	} //end constructor
+
+	shuffle(card,index)
+	{
+		let cards = this.deck.cards;
+		if (card)
+		{
+			// shuffle card into the deck
+			if (index) 
 			{
-				x: WIDTH-25,
-				y: HEIGHT/2 - 50,
-			}, "Arousal");
-			this.dominanceDisplay = new StatDisplay(scene,
+				cards.splice(index,0,card);
+			} else {
+				let index = Math.floor(Math.random()*cards.length);
+				cards.splice(index,0,card);
+			}
+			this.deck.add(card);
+			card.zone = this;
+		} else {
+			// shuffle the deck
+			for (var ii = 0; ii < cards.length; ii++)
 			{
-				x: WIDTH-25,
-				y: HEIGHT/2-80,
-			}, "Dominance");
-			this.allureDisplay = new StatDisplay(scene,
-			{
-				x: WIDTH-25,
-				y: HEIGHT/2-110,
-			}, "Allure");
-			this.perversionDisplay = new StatDisplay(scene,
-			{
-				x: WIDTH-25,
-				y: HEIGHT/2-140,
-			}, "Perversion");
-			this.arousalDisplay.setOrigin(1,0.5);
-			this.dominanceDisplay.setOrigin(1,0.5);
-			this.allureDisplay.setOrigin(1,0.5);
-			this.perversionDisplay.setOrigin(1,0.5);
-			this.portrait = scene.add.sprite(WIDTH*0.95, HEIGHT*0.1,'portrait');
-			this.portrait.setDisplaySize(WIDTH*0.2,WIDTH*0.2);
+				let j = Math.floor(Math.random()*cards.length);
+				let k = Math.floor(Math.random()*cards.length);
+				let temp = cards[j];
+				cards[j] = cards[k];
+				cards[k] = cards[j];
+			}
 		}
 	}
-}
+
+	draw(N = 1)
+	{
+		for (var ii = 0; ii < N; ii++)
+		{
+			//console.log(this.deck.cards);
+			let card = this.deck.cards.splice(0,1)[0];
+			console.log(card);
+			this.deck.remove(card);
+			this.hand.addCard(card);
+			card.faceUp();
+			card.setInteractive();
+			//console.log("drew card: " + card);
+			//console.log("deck has " + this.deck.cards.length + " cards left");
+		}
+	}
+};

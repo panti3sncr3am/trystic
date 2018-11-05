@@ -1,7 +1,7 @@
 
 class Card extends Phaser.GameObjects.Container
 {
-	constructor(scene, x, y, config)
+	constructor(scene, x, y, config,playerNum)
 	{
 		//constructor and setup
 
@@ -9,10 +9,11 @@ class Card extends Phaser.GameObjects.Container
 		let W = scene.cardWidth;
 		
 		super(scene,x,y);
+		this.type = "Card";
+		this.cardType = config.cardType;
 		this.setSize(W,H);
 		scene.add.existing(this);
-		//this.setInteractive();
-		//scene.input.setDraggable(this);
+		
 		
 		// Card Front Base
 		this.base = scene.add.sprite(0,0,'card');
@@ -69,7 +70,26 @@ class Card extends Phaser.GameObjects.Container
 		this.back.visible = false;
 
 		this.zoomSpeed = 200;
-		this.zoneIndex = -1; //by default not in a zone
+		this.zoneIndex = -1;
+
+		//gameplay data
+		this.playerNum = playerNum;
+		if (config.target)
+		{
+			this.target = config.target;
+		}
+		if (config.requirements)
+		{
+			this.requirements = config.requirements;
+		}
+		if (config.effects)
+		{
+			this.effects = config.effects
+		}
+		if (config.keywords)
+		{
+			this.keywords = config.keywords
+		}
 
 		//events
 		this.on('pointerdown', this.onClick);
@@ -82,7 +102,6 @@ class Card extends Phaser.GameObjects.Container
 		this.on('dragenter',this.onDragenter);
 		this.on('dragleave',this.onDragleave);
 		this.on('drop',this.onDrop);
-		
 	}
 	
 	faceDown()
@@ -162,6 +181,14 @@ class Card extends Phaser.GameObjects.Container
 		this.zone.bringToTop(this);
 		this.scene.children.bringToTop(this);
 		this.zone.depth = 1000;
+
+		// Highlight valid targets
+		/*
+		if (this.playable())
+		{
+			this.highlightTarget(this.target, true);
+		}
+		*/
 		let tween = this.scene.tweens.add(
 		{
 			targets: this,
@@ -174,6 +201,12 @@ class Card extends Phaser.GameObjects.Container
 	}
 	onBlur(pointer)
 	{
+		/*
+		if (this.playable())
+		{
+			this.highlightTarget(this.target, false);
+		}
+		*/
 		this.zone.depth = 0;
 		this.scene.tweens.add({
 			targets: this,
@@ -219,7 +252,50 @@ class Card extends Phaser.GameObjects.Container
 		card.text.scaleY = 1.0/card.scaleY;
 		card.text.resize(card.textConfig.w*card.scaleX,
 						  card.textConfig.h*card.scaleY);
-		
+	}
+
+	playable()
+	{
+		let playable = true;
+		for (var ii = 0; ii < this.requirements.length; ii++)
+		{
+
+		}
+		return playable;
+	}
+
+	highlightTarget(target, flag)
+	{
+		if (target == "opponent")
+		{
+			let opponent = this.scene.opponent(this.playerNum);
+			opponent.highlightPortrait(flag);
+		}
+	}
+
+	clearTarget()
+	{
+	}
+
+	play(target)
+	{
+		var success = false;
+		console.log("tried to play a card");
+		var target;
+		if ((this.target == "opponent") 
+			&& (target.type == "Portrait") 
+			&& (target.playerNum != this.playerNum))
+		{
+			let target = GAME.getOpponent(this.playerNum);
+			for (var ii = 0; ii < this.effects.length;ii++)
+			{
+				let effect = eval(this.effects[ii].effect);
+				console.log(effect);
+				effect(target, this.effects[ii].value);
+			}
+			success = true;
+		} 
+		return success;
 	}
 }
 

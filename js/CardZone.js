@@ -3,36 +3,28 @@ class CardZone extends Phaser.GameObjects.Container
 	constructor(config)
 	{
 		super(config.scene, config.x, config.y);
+		this.type = "CardZone";
+		this.id = config.id;
+
+		this.splayCards = config.splayCards;
 
 		if (config.texture)
 		{
 			this.texture = config.scene.add.sprite(0,0,config.texture);
 			this.texture.setDisplaySize(config.w, config.h);
 			this.add(this.texture);
-			
-		} else {
-
 		}
-		
 		this.setSize(config.w, config.h);
 		this.w = config.w;
 		this.h = config.h;
 		this.scene.add.existing(this);
-		this.setInteractive();
-		this.input.dropZone = true;
-		this.outline = config.scene.add.graphics();
-		this.outline.lineStyle(2,0x00ff00,1);
-		this.outline.strokeRect(this.x - this.w/2, this.y - this.h/2,
-								this.w, this.h);
-		this.outline.visible = false;
 		this.cards = [];
 		this.depth = 0;
-		
 	}
 
 	addCard(card, index = 0)
 	{
-		console.log("addCard");
+		if (card.zone == this){return;}
 		if (index) 
 		{
 			this.cards.splice(index,0,card);
@@ -46,7 +38,6 @@ class CardZone extends Phaser.GameObjects.Container
 
 	removeCard(card)
 	{
-		console.log("removeCard");
 		if (card.zone == this)
 		{
 			this.cards.splice(card.zoneIndex,1);
@@ -57,14 +48,19 @@ class CardZone extends Phaser.GameObjects.Container
 
 	updateCards()
 	{
-		console.log(this.cards.length);
-		let delta = this.w/(this.cards.length + 1);
-		for (var ii = 0; ii < this.cards.length; ii++)
+		for (var jj = 0; jj < this.cards.length; jj++)
 		{
-			this.cards[ii].zoneIndex = ii;
-			this.cards[ii].x = (- this.w/2) + (ii+1)*delta;
-			this.cards[ii].y = 0;
-			this.bringToTop(this.cards[ii]);
+			this.cards[jj].zoneIndex = jj;
+		}
+		if (this.splayCards)
+		{
+			let delta = this.w/(this.cards.length + 1);
+			for (var ii = 0; ii < this.cards.length; ii++)
+			{
+				this.cards[ii].x = (- this.w/2) + (ii+1)*delta;
+				this.cards[ii].y = 0;
+				this.bringToTop(this.cards[ii]);
+			}
 		}
 	}
 }

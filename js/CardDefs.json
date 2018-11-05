@@ -1,35 +1,51 @@
 {
-	"cards": [{
+	"cards": [
+	{
 		"id": "card_01",
 		"name": "Card 1",
-		"type": "Test",
+		"cardType": "Test",
 		"text": "This is Test Card 1, it has quite a lot of text.\nThis is the next line of text.",
-		"tint": [255, 0, 0]
+		"tint": [255, 0, 0],
+		"target": "none",
+		"requirements": [],
+		"keywords": [],
+		"effects": []
 	},
 	{
 		"id": "card_02",
 		"name": "Card 2",
-		"type": "Test",
+		"cardType": "Test",
 		"text": "This is Test Card 2",
-		"tint": [0, 255, 0]
+		"tint": [0, 255, 0],
+		"target": "none",
+		"requirements": [],
+		"keywords": [],
+		"effects": []
 	},
 	{
 		"id": "card_03",
 		"name": "Card 3",
-		"type": "Test",
+		"cardType": "Test",
 		"text": "This is Test Card 3",
-		"tint": [0, 0, 255]
+		"tint": [0, 0, 255],
+		"target": "none",
+		"requirements": [],
+		"keywords": [],
+		"effects": []
 	},
 	{
 		"id": "warm_and_tingly",
 		"name": "Warm and Tingly",
-		"type": "Spell",
+		"cardType": "Spell",
 		"text": "Opponent gains 2 Arousal.",
 		"tint": [255, 200, 255],
-		"targets": ["opponent"],
+		"target": "opponent",
+		"requirements": [],
+		"keywords": [],
 		"effects": [
 			{
 				"effect": "addArousal",
+				"trigger": "none",
 				"value": 2
 			}
 		]
