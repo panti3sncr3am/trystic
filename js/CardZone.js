@@ -18,6 +18,11 @@ class CardZone extends Phaser.GameObjects.Container
 		this.w = config.w;
 		this.h = config.h;
 		this.scene.add.existing(this);
+
+		this.outline = this.scene.add.graphics();
+		this.outline.strokeRect(config.x - config.w/2, config.y - config.h/2,
+								config.w, config.h);
+
 		this.cards = [];
 		this.depth = 0;
 	}
@@ -51,6 +56,7 @@ class CardZone extends Phaser.GameObjects.Container
 		for (var jj = 0; jj < this.cards.length; jj++)
 		{
 			this.cards[jj].zoneIndex = jj;
+			this.cards[jj].x = 0;
 		}
 		if (this.splayCards)
 		{

@@ -41,7 +41,7 @@ class GameBoard extends Phaser.Scene {
 	   		wordWrap: {width: 150, useAdvancedWrap: true}
 	   	})
 	   	
-	   	this.decksize = 10;
+	   	this.decksize = 60;
 	   	let decklist = [];
 	   	for (var ii = 0; ii < this.decksize; ii++)
 	   	{
@@ -49,7 +49,7 @@ class GameBoard extends Phaser.Scene {
 	   	}
 
 	    PLAYER = new Player(this,decklist,0);
-	    //OPPONENT = new Player(this,decklist,1);
+	    OPPONENT = new Player(this,decklist,1);
 	    HELP = new DynamicText(this,
 	    	{
 	    		x: WIDTH/2,
@@ -83,7 +83,7 @@ class GameBoard extends Phaser.Scene {
 		   				gameObject.base.setTint("0x00cc00");
 		   				HELP.setText("Select a Target");
 		   				HELP.visible = true;
-	    			} else if (gameObject.type == "CardZone" )
+	    			} else if (gameObject.id == "Deck" )
 	    			{
 	    				this.owner(gameObject).draw();
 	    			}
@@ -92,8 +92,9 @@ class GameBoard extends Phaser.Scene {
 	   				let success = this.targeting.play(gameObject);
 	   				if (success)
 	   				{
-	   					//this.targeting.discard()
-	   					this.targeting.destroy();
+	   					this.targeting.base.clearTint();
+	   					HELP.visible = false;
+	   					this.owner(this.targeting).discard(this.targeting);
 	   					this.targeting = 0;
 	   				}
 	   			}
@@ -130,7 +131,7 @@ class GameBoard extends Phaser.Scene {
 	opponent(object)
 	{
 		let playerNum = object.playerNum;
-		if (playerNum == 1) {return PLAYER}
+		if (playerNum == 1) {return PLAYER;}
 		else {return OPPONENT;}
 	}
 

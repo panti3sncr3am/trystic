@@ -15,6 +15,7 @@ class Player extends Phaser.GameObjects.GameObject
 	    	h: ZONE_HEIGHT,
 
 	    });
+	    this.hand.playerNum = playerNum;
 		this.zone0 = new CardZone({
 	    	scene: scene,
 	    	id: "Zone0",
@@ -25,6 +26,7 @@ class Player extends Phaser.GameObjects.GameObject
 	    	h: ZONE_HEIGHT,
 	    	texture: 'cardZone'
 	    });
+	    this.zone0.playerNum = playerNum;
 	    this.zone1 = new CardZone({
 	    	scene: scene,
 	    	id: "Zone1",
@@ -35,6 +37,7 @@ class Player extends Phaser.GameObjects.GameObject
 	    	h: ZONE_HEIGHT,
 	    	texture: 'cardZone'
 	    });
+	    this.zone1.playerNum = playerNum;
 	    this.deck = new CardZone({
 	    	scene: scene,
 	    	id: "Deck",
@@ -44,16 +47,18 @@ class Player extends Phaser.GameObjects.GameObject
 	    	w: DECK.w,
 	    	h: ZONE_HEIGHT,
 	    });
+	    this.deck.playerNum = playerNum;
 	    this.deck.setInteractive();
-	    this.discard = new CardZone({
+	    this.discardPile = new CardZone({
 	    	scene: scene,
-	    	id: "Discard",
+	    	id: "DiscardPile",
 	    	splayCards: false,
 	    	x: DISCARD.x*playerNum + (WIDTH - DISCARD.x)*(1 - playerNum),
 	    	y: DISCARD.y*playerNum + (HEIGHT - DISCARD.y)*(1 - playerNum),
 	    	w: DISCARD.w,
 	    	h: ZONE_HEIGHT,
 	    });
+	    this.discardPile.playerNum = playerNum;
 
 		this.portrait = scene.add.sprite(PORTRAIT.x*playerNum + (WIDTH - PORTRAIT.x)*(1 - playerNum),
 										PORTRAIT.y*playerNum + (HEIGHT - PORTRAIT.y)*(1 - playerNum),
@@ -99,21 +104,10 @@ class Player extends Phaser.GameObjects.GameObject
 			let card = new Card(scene, 0, 0, scene.cardDefs[decklist[ii]], playerNum);
 			card.faceDown();
 			this.deck.addCard(card);
-
 		}
-
-
-		this.shuffle();
-
 
 		// draw staring hand
-		for (var ii = 0; ii < 7; ii++)
-		{
-			this.draw();
-		}
-		console.log(this.deck);
-		//this.draw(7);
-
+		this.draw(7);
 	} //end constructor
 
 	shuffle(card,index)
@@ -139,8 +133,9 @@ class Player extends Phaser.GameObjects.GameObject
 				let k = Math.floor(Math.random()*cards.length);
 				let temp = cards[j];
 				cards[j] = cards[k];
-				cards[k] = cards[j];
+				cards[k] = temp;
 			}
+			this.deck.updateCards();
 		}
 	}
 
@@ -148,15 +143,27 @@ class Player extends Phaser.GameObjects.GameObject
 	{
 		for (var ii = 0; ii < N; ii++)
 		{
-			//console.log(this.deck.cards);
-			let card = this.deck.cards.splice(0,1)[0];
-			console.log(card);
+			let card = this.deck.cards.splice(-1,1)[0];
 			this.deck.remove(card);
 			this.hand.addCard(card);
 			card.faceUp();
 			card.setInteractive();
-			//console.log("drew card: " + card);
-			//console.log("deck has " + this.deck.cards.length + " cards left");
+		}
+	}
+
+	discard(card)
+	{
+		this.hand.removeCard(card);
+		this.discardPile.addCard(card);
+		console.log(this.discardPile);
+		card.setInteractive(false);
+	}
+
+	printHand()
+	{
+		for (var ii = 0; ii < this.hand.cards.lenth; ii++)
+		{
+			console.log(this.hand.cards[ii]);
 		}
 	}
 };

@@ -281,17 +281,19 @@ class Card extends Phaser.GameObjects.Container
 	{
 		var success = false;
 		console.log("tried to play a card");
-		var target;
+		var tgt;
 		if ((this.target == "opponent") 
-			&& (target.type == "Portrait") 
+			&& (target.id == "Portrait") 
 			&& (target.playerNum != this.playerNum))
 		{
-			let target = GAME.getOpponent(this.playerNum);
+			tgt = GAME.opponent(this);
+			console.log("I am " + this.playerNum);
+			console.log("my opponent is " + tgt.playerNum);
 			for (var ii = 0; ii < this.effects.length;ii++)
 			{
 				let effect = eval(this.effects[ii].effect);
 				console.log(effect);
-				effect(target, this.effects[ii].value);
+				effect(tgt, this.effects[ii].value);
 			}
 			success = true;
 		} 
