@@ -148,6 +148,11 @@ class Player extends Phaser.GameObjects.GameObject
 			this.hand.addCard(card);
 			card.faceUp();
 			card.setInteractive();
+			this.emit('drawCard',
+				{
+					player: this.playerNum,
+					value: card,
+				});
 		}
 	}
 

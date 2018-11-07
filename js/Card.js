@@ -282,22 +282,53 @@ class Card extends Phaser.GameObjects.Container
 		var success = false;
 		console.log("tried to play a card");
 		var tgt;
+		// Target = opponent
 		if ((this.target == "opponent") 
 			&& (target.id == "Portrait") 
 			&& (target.playerNum != this.playerNum))
 		{
 			tgt = GAME.opponent(this);
-			console.log("I am " + this.playerNum);
-			console.log("my opponent is " + tgt.playerNum);
-			for (var ii = 0; ii < this.effects.length;ii++)
-			{
-				let effect = eval(this.effects[ii].effect);
-				console.log(effect);
-				effect(tgt, this.effects[ii].value);
-			}
+			this.resolve(tgt);
 			success = true;
 		} 
+		// Target = player
+		else if ((this.target == "player") 
+			&& (target.id == "Portrait"))
+		{
+			tgt = GAME.owner(target);
+			console.log("I am " + this.playerNum);
+			console.log("my target is " + tgt.playerNum);
+			this.resolve(tgt);
+			success = true;
+
+		}
 		return success;
+	}
+
+	resolve(target)
+	{
+		if (this.cardType == "Spell")
+		{
+			for (var ii = 0; ii < this.effects.length;ii++)
+			{
+				let fxn = eval(this.effects[ii].fxn);
+				console.log(fxn);
+				fxn(this.effects[ii].fxnArgs);
+				GAME.owner(this).discard(this);
+			}
+		} else if (this.cardType == "Charm"){
+			GAME.owner(this).hand.removeCard(this);
+			GAME.owner(target).zone1.addCard(this);
+			for (var ii = 0; ii < this.effects.length;ii++)
+			{
+				var fxn = eval(this.effects[ii].fxn).bind(this, this.effects[ii].fxnArgs);
+				var check = checkTrigger.bind(this, this.effects[ii].triggerArgs);
+				this.on(this.effects[ii].trigger, function(eventArgs)
+					{
+						if (check(eventArgs)){fxn();}			
+					});
+			}
+		}
 	}
 }
 

@@ -1,5 +1,7 @@
-var WIDTH;
-var HEIGHT;
+
+var WIDTH = window.innerWidth;
+var HEIGHT = window.innerHeight;
+/*
 var ZONE_HEIGHT;
 var HAND;
 var ZONE_0;
@@ -66,9 +68,9 @@ window.onload = function()
 	}
 	const game = new Phaser.Game(config);
 };
-
+*/
 // test bed
-/*
+
 var config = {
     type: Phaser.AUTO,
     width: WIDTH,
@@ -79,57 +81,48 @@ var config = {
     }
 };
 
-class TestCard extends Phaser.GameObjects.Sprite
+class Test extends Phaser.GameObjects.Sprite
 {
 	constructor(scene, x, y)
 	{
 		super(scene,x,y,'card');
-		this.setTint("0x00cc00");
+		this.setTint("0x00ff00");
 		scene.add.existing(this);
+		this.setInteractive();
 
 		this.targeting = false;
+
 		this.on('pointerdown', function()
 		{
 			console.log("clicked the card");
 			this.targeting = true;
-			this.setTint("0x00ff00");
+			this.setTint("0xff0000");
 		});
-		this.on('rightClick', function()
+		scene.events.on('rightClick', function()
 		{
 			this.targeting = false;
-			this.setTint("0x00cc00");
-		})
+			this.setTint("0x00ff00");
+		},this);
 	}
 };
 
-class Target extends Phaser.GameObjects.Sprite
-{
-	constructor(scene, x, y)
-	{
-		super(scene, x, y, 'card');
-		this.setTint("0xcc0000");
-		scene.add.existing(this);
-	}
-}
 var GAME = new Phaser.Game(config);
 
 function preload()
 {
 	this.load.image('card','img/card.png');
-	this.load.image('portrait','img/portrait.png');
 }
 
 function create()
 {
-	this.input.on('pointerup',function(pointer)
+	this.input.on('pointerdown',function(pointer)
 	{
 		if (pointer.rightButtonDown())
 		{
-			GAME.emit('rightClick',pointer);
+			console.log("rightClick");
+			this.events.emit('rightClick',pointer);
 		}
-	});
+	},this);
 
-	let card = new TestCard(this, WIDTH/3, HEIGHT/2);
-	let target = new Target(this, 2*WIDTH/3, HEIGHT/2);
+	let obj = new Test(this, WIDTH/2, HEIGHT/2);
 }
-*/

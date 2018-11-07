@@ -17,7 +17,6 @@ class GameBoard extends Phaser.Scene {
 	    this.load.image('cardBack','img/card_back.png');
 	    this.load.image('portrait','img/portrait.png');
 	    this.load.json('cardDefs','js/CardDefs.json');
-	    
 	}
 
 	create ()
@@ -30,8 +29,10 @@ class GameBoard extends Phaser.Scene {
 	    this.bg = this.add.sprite(WIDTH/2,HEIGHT/2, 'bg');
 	   	this.bg.setDisplaySize(WIDTH,HEIGHT);
 	    
-	   	this.cardDefs = this.cache.json.get('cardDefs').cards;
 
+	   	this.cardDefs = this.cache.json.get('cardDefs').cards;
+	   	console.log("I count " + this.cardDefs.length + " types of card");
+	   	/*
 	   	var text = new DynamicText(this, WIDTH/2, HEIGHT/2, 100,100, 
 	   		"TEXT",
 	   	{
@@ -39,8 +40,8 @@ class GameBoard extends Phaser.Scene {
 	   		fontSize: 32,
 	   		fontFamily: "Ariel",
 	   		wordWrap: {width: 150, useAdvancedWrap: true}
-	   	})
-	   	
+	   	});
+	   	*/
 	   	this.decksize = 60;
 	   	let decklist = [];
 	   	for (var ii = 0; ii < this.decksize; ii++)
@@ -77,7 +78,9 @@ class GameBoard extends Phaser.Scene {
 	    		console.log(gameObject);
 	    		if (!this.targeting)
 	    		{
-	    			if (gameObject.type == "Card" && gameObject.playable())
+	    			if (gameObject.type == "Card" &&
+	    				gameObject.zone.id == "Hand" &&
+	    				gameObject.playable())
 	    			{
 	    				this.targeting = gameObject;
 		   				gameObject.base.setTint("0x00cc00");
@@ -94,7 +97,6 @@ class GameBoard extends Phaser.Scene {
 	   				{
 	   					this.targeting.base.clearTint();
 	   					HELP.visible = false;
-	   					this.owner(this.targeting).discard(this.targeting);
 	   					this.targeting = 0;
 	   				}
 	   			}
@@ -114,6 +116,7 @@ class GameBoard extends Phaser.Scene {
 	    		this.events.emit('rightClick',pointer);
 	    	}
 	    }, this);
+	    
 	  
 	}
 

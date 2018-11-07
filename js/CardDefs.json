@@ -44,12 +44,28 @@
 		"keywords": [],
 		"effects": [
 			{
-				"effect": "addArousal",
-				"trigger": "none",
-				"value": 2
+				"fxn": "addArousal",
+				"fxnArgs": {"target": "opponent", "value": 2}
+			}
+		]
+	},
+	{
+		"id": "dirty_thoughts",
+		"name": "Dirty Thoughts",
+		"cardType": "Charm",
+		"text": "When target player draws a card, they gain 1 Arousal.",
+		"tint": [150, 100, 200],
+		"target": "player",
+		"requirements": [],
+		"keywords": [],
+		"effects": [
+			{
+				"fxn": "addArousal",
+				"fxnArgs": {"targetPlayer": "self", "value": 1},
+				"trigger": "drawCard",
+				"triggerArgs": {"player": "self"}
 			}
 		]
 	}
-
 	]
 }
