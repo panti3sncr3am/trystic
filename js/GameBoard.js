@@ -2,6 +2,8 @@ var PLAYER;
 var OPPONENT;
 var HELP;
 var GAME;
+var TURN;
+var NEXT;
 
 class GameBoard extends Phaser.Scene {
 	constructor() {
@@ -16,6 +18,8 @@ class GameBoard extends Phaser.Scene {
 	    this.load.image('tempCardArt','img/card_img.png');
 	    this.load.image('cardBack','img/card_back.png');
 	    this.load.image('portrait','img/portrait.png');
+	    this.load.image('continue','img/continue.png');
+	    this.load.image('aura','img/aura.png');
 	    this.load.json('cardDefs','js/CardDefs.json');
 	}
 
@@ -32,16 +36,7 @@ class GameBoard extends Phaser.Scene {
 
 	   	this.cardDefs = this.cache.json.get('cardDefs').cards;
 	   	console.log("I count " + this.cardDefs.length + " types of card");
-	   	/*
-	   	var text = new DynamicText(this, WIDTH/2, HEIGHT/2, 100,100, 
-	   		"TEXT",
-	   	{
-	   		color: "#ffff00",
-	   		fontSize: 32,
-	   		fontFamily: "Ariel",
-	   		wordWrap: {width: 150, useAdvancedWrap: true}
-	   	});
-	   	*/
+	 
 	   	this.decksize = 60;
 	   	let decklist = [];
 	   	for (var ii = 0; ii < this.decksize; ii++)
@@ -51,6 +46,11 @@ class GameBoard extends Phaser.Scene {
 
 	    PLAYER = new Player(this,decklist,0);
 	    OPPONENT = new Player(this,decklist,1);
+	    let coinFlip = Math.floor(Math.random()*2);
+	    if (coinFlip){TURN = PLAYER;} else {TURN = OPPONENT;}
+	    TURN.aura.visible = true;
+
+	    // UI Stuff
 	    HELP = new DynamicText(this,
 	    	{
 	    		x: WIDTH/2,
@@ -69,6 +69,8 @@ class GameBoard extends Phaser.Scene {
 				wordWrap: {width: 0.7*WIDTH, useAdvancedWrap: true}
 			});
 	    HELP.visible = false;
+	    NEXT = this.add.sprite(WIDTH*0.9, HEIGHT*0.95,'continue');
+	    NEXT.setInteractive();
 
 	    this.targeting = 0;
 	    this.input.on('gameobjectdown',function (pointer, gameObject)
@@ -76,9 +78,21 @@ class GameBoard extends Phaser.Scene {
 	    	if (pointer.leftButtonDown())
 	    	{
 	    		console.log(gameObject);
-	    		if (!this.targeting)
+	    		if (gameObject == NEXT)
+	    		{
+	    			this.events.emit('endTurn',TURN);
+	    			TURN.aura.visible = false;
+	    			if (TURN == PLAYER){TURN = OPPONENT;}
+	    			else {TURN = PLAYER;}
+	    			TURN.aura.visible = true;
+	    			this.events.emit('startTurn',TURN);
+	    			TURN.draw();
+
+	    		}
+	    		else if (!this.targeting)
 	    		{
 	    			if (gameObject.type == "Card" &&
+	    				GAME.owner(gameObject) == TURN &&
 	    				gameObject.zone.id == "Hand" &&
 	    				gameObject.playable())
 	    			{
@@ -116,6 +130,8 @@ class GameBoard extends Phaser.Scene {
 	    		this.events.emit('rightClick',pointer);
 	    	}
 	    }, this);
+
+
 	    
 	  
 	}

@@ -311,19 +311,20 @@ class Card extends Phaser.GameObjects.Container
 		{
 			for (var ii = 0; ii < this.effects.length;ii++)
 			{
-				let fxn = eval(this.effects[ii].fxn);
+				let fxn = eval(this.effects[ii].fxn).bind(this);
 				console.log(fxn);
+				console.log(this.effects[ii].fxnArgs);
 				fxn(this.effects[ii].fxnArgs);
 				GAME.owner(this).discard(this);
 			}
 		} else if (this.cardType == "Charm"){
 			GAME.owner(this).hand.removeCard(this);
-			GAME.owner(target).zone1.addCard(this);
+			GAME.owner(this).zone1.addCard(this);
 			for (var ii = 0; ii < this.effects.length;ii++)
 			{
 				var fxn = eval(this.effects[ii].fxn).bind(this, this.effects[ii].fxnArgs);
 				var check = checkTrigger.bind(this, this.effects[ii].triggerArgs);
-				this.on(this.effects[ii].trigger, function(eventArgs)
+				this.scene.events.on(this.effects[ii].trigger, function(eventArgs)
 					{
 						if (check(eventArgs)){fxn();}			
 					});

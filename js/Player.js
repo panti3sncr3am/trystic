@@ -4,6 +4,11 @@ class Player extends Phaser.GameObjects.GameObject
 	{
 		super(scene,"Player");
 		this.playerNum = playerNum;
+		this.aura = scene.add.sprite(WIDTH/2,
+								     HEIGHT/4*playerNum + 3*HEIGHT/4*(1-playerNum),
+								     'aura');
+		this.aura.setDisplaySize(WIDTH, HEIGHT*0.6)
+		this.aura.visible = false;
 		// Create Zones
 		this.hand = new CardZone({
 	    	scene: scene,
@@ -148,7 +153,7 @@ class Player extends Phaser.GameObjects.GameObject
 			this.hand.addCard(card);
 			card.faceUp();
 			card.setInteractive();
-			this.emit('drawCard',
+			this.scene.events.emit('drawCard',
 				{
 					player: this.playerNum,
 					value: card,

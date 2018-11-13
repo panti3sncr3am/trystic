@@ -1,7 +1,7 @@
 
-var WIDTH = window.innerWidth;
-var HEIGHT = window.innerHeight;
-/*
+var WIDTH;
+var HEIGHT;
+
 var ZONE_HEIGHT;
 var HAND;
 var ZONE_0;
@@ -68,9 +68,9 @@ window.onload = function()
 	}
 	const game = new Phaser.Game(config);
 };
-*/
-// test bed
 
+// test bed
+/*
 var config = {
     type: Phaser.AUTO,
     width: WIDTH,
@@ -126,3 +126,4 @@ function create()
 
 	let obj = new Test(this, WIDTH/2, HEIGHT/2);
 }
+*/
