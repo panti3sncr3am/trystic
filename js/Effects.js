@@ -3,8 +3,8 @@ function checkTrigger(triggerArgs, eventArgs)
 	console.log("checking trigger");
 	console.log(triggerArgs);
 	console.log(eventArgs);
-	let plr = GAME.owner(this.zone);
-	let opp = GAME.opponent(this.zone);
+	let plr = GAME.owner(this);
+	let opp = GAME.opponent(this);
 
 	if (triggerArgs.hasOwnProperty("player"))
 	{
