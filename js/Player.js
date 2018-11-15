@@ -149,6 +149,7 @@ class Player extends Phaser.GameObjects.GameObject
 		for (var ii = 0; ii < N; ii++)
 		{
 			let card = this.deck.cards.splice(-1,1)[0];
+			card.angle = 180*this.playerNum;
 			this.deck.remove(card);
 			this.hand.addCard(card);
 			card.faceUp();

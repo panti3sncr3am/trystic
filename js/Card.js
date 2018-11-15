@@ -74,6 +74,10 @@ class Card extends Phaser.GameObjects.Container
 
 		//gameplay data
 		this.playerNum = playerNum;
+		if (config.hasOwnProperty("cost"))
+		{
+			this.cost = config.cost;
+		}
 		if (config.target)
 		{
 			this.target = config.target;
@@ -181,6 +185,7 @@ class Card extends Phaser.GameObjects.Container
 		this.zone.bringToTop(this);
 		this.scene.children.bringToTop(this);
 		this.zone.depth = 1000;
+		this.angle = 0;
 
 		// Highlight valid targets
 		/*
@@ -208,6 +213,7 @@ class Card extends Phaser.GameObjects.Container
 		}
 		*/
 		this.zone.depth = 0;
+		this.angle = 180*this.playerNum;
 		this.scene.tweens.add({
 			targets: this,
 			scaleX: 1,
@@ -256,12 +262,18 @@ class Card extends Phaser.GameObjects.Container
 
 	playable()
 	{
-		let playable = true;
+		console.log("Checking playability...");
+		let success = true;
+		let opp = GAME.opponent(this);
+		success &= (opp.arousal >= this.cost);
+		console.log("Able to pay cost: " + success);
 		for (var ii = 0; ii < this.requirements.length; ii++)
 		{
-
+			let fxn = eval(this.requirements[ii].fxn).bind(this,this.requirements[ii].fxnArgs);
+			success &= fxn();
+			console.log("Passes requirement " + this.requirements[ii].fxn + ": " + success);
 		}
-		return playable;
+		return success;
 	}
 
 	highlightTarget(target, flag)
@@ -307,6 +319,9 @@ class Card extends Phaser.GameObjects.Container
 
 	resolve(target)
 	{
+		let opp = GAME.opponent(this);
+		opp.arousal -= this.cost;
+		opp.arousalDisplay.update(opp.arousal);
 		if (this.cardType == "Spell")
 		{
 			for (var ii = 0; ii < this.effects.length;ii++)
