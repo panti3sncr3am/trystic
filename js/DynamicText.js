@@ -20,6 +20,7 @@ class DynamicText extends Phaser.GameObjects.Text
 			this.maxFontSize = 32;
 		}
 		
+		/*
 		this.bounds = scene.add.graphics();
 		scene.add.existing(this.bounds);
 		this.bounds.lineStyle(1, 0xff0000, 1);
@@ -27,7 +28,7 @@ class DynamicText extends Phaser.GameObjects.Text
 		this.box = scene.add.graphics();
 		scene.add.existing(this.box);
 		this.box.lineStyle(1, 0x00ff00, 1);
-
+		*/
 		this.resize(w, h);
 	}
 
@@ -66,6 +67,4 @@ class DynamicText extends Phaser.GameObjects.Text
 			}
 		}
 	}
-
-
 }

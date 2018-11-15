@@ -20,6 +20,7 @@ class CardZone extends Phaser.GameObjects.Container
 		this.scene.add.existing(this);
 
 		this.outline = this.scene.add.graphics();
+		this.outline.lineStyle(1, 0x00ff00, 1);
 		this.outline.strokeRect(config.x - config.w/2, config.y - config.h/2,
 								config.w, config.h);
 

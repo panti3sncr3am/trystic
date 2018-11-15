@@ -14,7 +14,6 @@ class Card extends Phaser.GameObjects.Container
 		this.setSize(W,H);
 		scene.add.existing(this);
 		
-		
 		// Card Front Base
 		this.base = scene.add.sprite(0,0,'card');
 		this.add(this.base);
@@ -22,8 +21,8 @@ class Card extends Phaser.GameObjects.Container
 		
 
 		// Card Art
-		this.art = scene.add.sprite(0,-0.15*H,'tempCardArt');
-		this.art.setDisplaySize(W*0.9, H*0.9*0.5);
+		this.art = scene.add.sprite(0,-0.16*H,'tempCardArt');
+		this.art.setDisplaySize(W*0.8, H*0.4);
 		this.add(this.art);
 		this.art.setTint(Phaser.Display.Color.GetColor(
 			config.tint[0], config.tint[1], config.tint[2]));
