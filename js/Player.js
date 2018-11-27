@@ -10,17 +10,7 @@ class Player extends Phaser.GameObjects.GameObject
 		this.aura.setDisplaySize(WIDTH, HEIGHT*0.6)
 		this.aura.visible = false;
 		// Create Zones
-		this.hand = new CardZone({
-	    	scene: scene,
-	    	id: "Hand",
-	    	splayCards: true,
-	    	x: HAND.x*playerNum + (WIDTH - HAND.x)*(1 - playerNum),
-	    	y: HAND.y*playerNum + (HEIGHT - HAND.y)*(1 - playerNum),
-	    	w: HAND.w,
-	    	h: ZONE_HEIGHT,
-
-	    });
-	    this.hand.playerNum = playerNum;
+	
 		this.zone0 = new CardZone({
 	    	scene: scene,
 	    	id: "Zone0",
@@ -64,6 +54,17 @@ class Player extends Phaser.GameObjects.GameObject
 	    	h: ZONE_HEIGHT,
 	    });
 	    this.discardPile.playerNum = playerNum;
+	    this.hand = new CardZone({
+	    	scene: scene,
+	    	id: "Hand",
+	    	splayCards: true,
+	    	x: HAND.x*playerNum + (WIDTH - HAND.x)*(1 - playerNum),
+	    	y: HAND.y*playerNum + (HEIGHT - HAND.y)*(1 - playerNum),
+	    	w: HAND.w,
+	    	h: ZONE_HEIGHT,
+
+	    });
+	    this.hand.playerNum = playerNum;
 
 		this.portrait = scene.add.sprite(PORTRAIT.x*playerNum + (WIDTH - PORTRAIT.x)*(1 - playerNum),
 										PORTRAIT.y*playerNum + (HEIGHT - PORTRAIT.y)*(1 - playerNum),
@@ -152,6 +153,7 @@ class Player extends Phaser.GameObjects.GameObject
 			card.angle = 180*this.playerNum;
 			this.deck.remove(card);
 			this.hand.addCard(card);
+			this.hand.bringToTop(card);
 			card.faceUp();
 			card.setInteractive();
 			this.scene.events.emit('drawCard',

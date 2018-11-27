@@ -25,7 +25,7 @@ window.onload = function()
 	ZONE_HEIGHT = HEIGHT/6;
 	HAND = {
 		x: WIDTH/2,
-		y: 0,
+		y: HEIGHT/10,
 		w: WIDTH*0.4,
 	};
 

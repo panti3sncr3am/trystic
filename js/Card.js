@@ -30,10 +30,10 @@ class Card extends Phaser.GameObjects.Container
 		// Title
 		this.titleConfig = {
 			x: 0,
-			y: -0.85*H/2,
-			w: W*0.9,
-			h: H*0.1,
-			minFontSize: 10,
+			y: -0.84*H/2,
+			w: W*0.7,
+			h: H*0.095,
+			minFontSize: 8,
 			maxFontSize: 32
 		}
 		this.title = new DynamicText(scene, this.titleConfig, config.name,
@@ -48,10 +48,10 @@ class Card extends Phaser.GameObjects.Container
 		this.textConfig = {
 			x: 0,
 			y: H/4,
-			w: W*0.9,
+			w: W*0.8,
 			h: H*0.4,
 			minFontSize: 8,
-			maxFontSize: 18
+			maxFontSize: 12
 		}
 		this.text = new DynamicText(scene, this.textConfig, config.text,
 			{
@@ -59,10 +59,37 @@ class Card extends Phaser.GameObjects.Container
 				fontSize: 16,
 				color: '#000000',
 				fontStyle: 'bold',
-				wordWrap: {width: 0.9*W, useAdvancedWrap: true}
+				wordWrap: {width: 0.8*W, useAdvancedWrap: true}
 			});
 		this.add(this.text);
 
+		// Attributes
+		let cardTypesText = config.cardType;
+		for (var ii = 0; ii < config.attributes.length; ii++)
+		{
+			cardTypesText += (" " + config.attributes[ii]);
+		}
+
+		this.cardTypesConfig = {
+			x: 0,
+			y: 0.075*H,
+			w: W*0.8,
+			h: H*0.05,
+			minFontSize: 8,
+			maxFontSize: 18
+		}
+		this.cardTypes = new DynamicText(scene, this.cardTypesConfig, cardTypesText,
+			{
+				fontFamily: 'Ariel',
+				fontSize: 16,
+				color: '#000000',
+				fontStyle: 'bold'
+			});
+		this.add(this.cardTypes);
+
+		// Cost
+
+		// Back
 		this.back = scene.add.sprite(0,0,'cardBack');
 		this.add(this.back);
 		this.back.setDisplaySize(W, H);
@@ -244,19 +271,33 @@ class Card extends Phaser.GameObjects.Container
 		}
 	}
 
+	scaleText()
+	{
+		let card = this;
+		card.title.rescale(card.scaleX, card.scaleY);
+		card.text.rescale(card.scaleX, card.scaleY);
+		card.cardTypes.rescale(card.scaleX, card.scaleY);
+	}
+
 	resizeText(tween, targets)
 	{
 
-		let card = targets[0];
-		
+		this.scaleText();
+		/*
 		card.title.scaleX = 1.0/card.scaleX;
 		card.title.scaleY = 1.0/card.scaleY;
 		card.title.resize(card.titleConfig.w*card.scaleX,
 						  card.titleConfig.h*card.scaleY);
+						  
 		card.text.scaleX = 1.0/card.scaleX;
 		card.text.scaleY = 1.0/card.scaleY;
 		card.text.resize(card.textConfig.w*card.scaleX,
 						  card.textConfig.h*card.scaleY);
+		card.cardTypes.scaleX = 1.0/card.scaleX;
+		card.cardTypes.scaleY = 1.0/card.scaleY;
+		card.cardTypes.resize(card.cardTypesConfig.w*card.scaleX,
+						  card.cardTypesConfig.h*card.scaleY);
+						  */
 	}
 
 	playable()
