@@ -31,7 +31,7 @@ class Card extends Phaser.GameObjects.Container
 		this.titleConfig = {
 			x: 0,
 			y: -0.84*H/2,
-			w: W*0.7,
+			w: W*0.65,
 			h: H*0.095,
 			minFontSize: 8,
 			maxFontSize: 32
@@ -76,19 +76,37 @@ class Card extends Phaser.GameObjects.Container
 			w: W*0.8,
 			h: H*0.05,
 			minFontSize: 8,
-			maxFontSize: 18
+			maxFontSize: 32
 		}
 		this.cardTypes = new DynamicText(scene, this.cardTypesConfig, cardTypesText,
 			{
 				fontFamily: 'Ariel',
-				fontSize: 16,
+				fontSize: 20,
 				color: '#000000',
 				fontStyle: 'bold'
 			});
 		this.add(this.cardTypes);
 
 		// Cost
-
+		this.costIcon = new Phaser.GameObjects.Ellipse(scene, -0.42*W, -0.44*H, W/7, W/7, 0xff33cc);
+		this.costIcon.setStrokeStyle(2, "#000000");
+		this.costText = new DynamicText(scene,{
+			x: -0.42*W,
+			y: -0.44*H,
+			w: W/7,
+			h: W/7,
+			minFontSize: 8,
+			maxFontSize: 32
+		}, config.cost, {
+			fontFamily: 'Ariel',
+			fontSize: 16,
+			color: "#000",
+			fontStyle: 'bold',
+			align: 'center'
+		});
+		this.add(this.costIcon);
+		this.add(this.costText);
+		//this.costText.setBackgroundColor("#f00")
 		// Back
 		this.back = scene.add.sprite(0,0,'cardBack');
 		this.add(this.back);
@@ -271,33 +289,19 @@ class Card extends Phaser.GameObjects.Container
 		}
 	}
 
-	scaleText()
+	rescaleText()
 	{
 		let card = this;
 		card.title.rescale(card.scaleX, card.scaleY);
 		card.text.rescale(card.scaleX, card.scaleY);
 		card.cardTypes.rescale(card.scaleX, card.scaleY);
+		card.costText.rescale(card.scaleX, card.scaleY);
 	}
 
 	resizeText(tween, targets)
 	{
 
-		this.scaleText();
-		/*
-		card.title.scaleX = 1.0/card.scaleX;
-		card.title.scaleY = 1.0/card.scaleY;
-		card.title.resize(card.titleConfig.w*card.scaleX,
-						  card.titleConfig.h*card.scaleY);
-						  
-		card.text.scaleX = 1.0/card.scaleX;
-		card.text.scaleY = 1.0/card.scaleY;
-		card.text.resize(card.textConfig.w*card.scaleX,
-						  card.textConfig.h*card.scaleY);
-		card.cardTypes.scaleX = 1.0/card.scaleX;
-		card.cardTypes.scaleY = 1.0/card.scaleY;
-		card.cardTypes.resize(card.cardTypesConfig.w*card.scaleX,
-						  card.cardTypesConfig.h*card.scaleY);
-						  */
+		targets[0].rescaleText();
 	}
 
 	playable()
