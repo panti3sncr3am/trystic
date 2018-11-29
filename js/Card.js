@@ -28,29 +28,32 @@ class Card extends Phaser.GameObjects.Container
 			config.tint[0], config.tint[1], config.tint[2]));
 
 		// Title
-		this.titleConfig = {
+
+		let titleConfig = {
 			x: 0,
 			y: -0.84*H/2,
 			w: W*0.65,
 			h: H*0.095,
-			minFontSize: 8,
-			maxFontSize: 32
+			minFontSize: 0,
+			maxFontSize: 32,
+			doWordWrap: false
 		}
-		this.title = new DynamicText(scene, this.titleConfig, config.name,
+		this.title = new DynamicText(scene, titleConfig, config.name,
 			{
 				fontFamily: 'Ariel',
 				fontSize: 32,
 				color: '#000000',
 				fontStyle: 'bold',
+				wordWrap: {width: 2*W, useAdvancedWrap: true}
 			});
 		this.add(this.title);
 		// Text
 		this.textConfig = {
 			x: 0,
-			y: H/4,
-			w: W*0.8,
-			h: H*0.4,
-			minFontSize: 8,
+			y: H*0.3,
+			w: W*0.75,
+			h: H*0.35,
+			minFontSize: 0,
 			maxFontSize: 12
 		}
 		this.text = new DynamicText(scene, this.textConfig, config.text,
@@ -59,7 +62,7 @@ class Card extends Phaser.GameObjects.Container
 				fontSize: 16,
 				color: '#000000',
 				fontStyle: 'bold',
-				wordWrap: {width: 0.8*W, useAdvancedWrap: true}
+				wordWrap: {width: 0.75*W, useAdvancedWrap: true}
 			});
 		this.add(this.text);
 
@@ -230,19 +233,12 @@ class Card extends Phaser.GameObjects.Container
 		this.scene.children.bringToTop(this);
 		this.zone.depth = 1000;
 		this.angle = 0;
-
-		// Highlight valid targets
-		/*
-		if (this.playable())
-		{
-			this.highlightTarget(this.target, true);
-		}
-		*/
+		this.prevScale = this.scaleX;
 		let tween = this.scene.tweens.add(
 		{
 			targets: this,
-			scaleX: 2,
-			scaleY: 2,
+			scaleX: 3,
+			scaleY: 3,
 			y: (HEIGHT/2 - this.zone.y)/3,
 			duration: this.zoomSpeed, 
 			onComplete: this.resizeText
@@ -260,8 +256,8 @@ class Card extends Phaser.GameObjects.Container
 		this.angle = 180*this.playerNum;
 		this.scene.tweens.add({
 			targets: this,
-			scaleX: 1,
-			scaleY: 1, 
+			scaleX: this.prevScale,
+			scaleY: this.prevScale, 
 			y: 0,
 			duration: this.zoomSpeed,
 			onComplete: this.resizeText
@@ -292,6 +288,8 @@ class Card extends Phaser.GameObjects.Container
 	rescaleText()
 	{
 		let card = this;
+		console.log("card scale is: " + card.scaleX);
+		console.log("card title scale is: " + card.title.scaleX);
 		card.title.rescale(card.scaleX, card.scaleY);
 		card.text.rescale(card.scaleX, card.scaleY);
 		card.cardTypes.rescale(card.scaleX, card.scaleY);
@@ -389,6 +387,12 @@ class Card extends Phaser.GameObjects.Container
 					});
 			}
 		}
+	}
+
+	setScale(scale)
+	{
+		super.setScale(scale);
+		this.rescaleText();
 	}
 }
 

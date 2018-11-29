@@ -156,6 +156,7 @@ class Player extends Phaser.GameObjects.GameObject
 			this.hand.bringToTop(card);
 			card.faceUp();
 			card.setInteractive();
+			card.setScale(1.5);
 			this.scene.events.emit('drawCard',
 				{
 					player: this.playerNum,

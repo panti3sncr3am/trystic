@@ -70,6 +70,7 @@ class GameBoard extends Phaser.Scene {
 			});
 	    HELP.visible = false;
 	    NEXT = this.add.sprite(WIDTH*0.9, HEIGHT*0.95,'continue');
+	    NEXT.setScale(0.5);
 	    NEXT.setInteractive();
 
 	    this.targeting = 0;
